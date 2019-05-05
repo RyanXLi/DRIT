@@ -12,7 +12,7 @@ class TrainOptions():
     self.parser.add_argument('--crop_size', type=int, default=216, help='cropped image size for training')
     self.parser.add_argument('--input_dim_a', type=int, default=3, help='# of input channels for domain A')
     self.parser.add_argument('--input_dim_b', type=int, default=3, help='# of input channels for domain B')
-    self.parser.add_argument('--nThreads', type=int, default=8, help='# of threads for data loader')
+    self.parser.add_argument('--nThreads', type=int, default=0, help='# of threads for data loader')
     self.parser.add_argument('--no_flip', action='store_true', help='specified if no flipping')
 
     # ouptput related

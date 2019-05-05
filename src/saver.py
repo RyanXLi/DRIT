@@ -70,4 +70,3 @@ class Saver():
       model.save('%s/%05d.pth' % (self.model_dir, ep), ep, total_it)
     elif ep == -1:
       model.save('%s/last.pth' % self.model_dir, ep, total_it)
-

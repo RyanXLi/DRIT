@@ -12,7 +12,7 @@ def main():
   # daita loader
   print('\n--- load dataset ---')
   dataset = dataset_unpair(opts)
-  train_loader = torch.utils.data.DataLoader(dataset, batch_size=opts.batch_size, shuffle=True, num_workers=opts.nThreads)
+  train_loader = torch.utils.data.DataLoader(dataset, batch_size=opts.batch_size, shuffle=False, num_workers=opts.nThreads)
 
   # model
   print('\n--- load model ---')
@@ -44,12 +44,20 @@ def main():
       images_b = images_b.cuda(opts.gpu).detach()
 
       # update model
-      if (it + 1) % opts.d_iter != 0 and it < len(train_loader) - 2:
-        model.update_D_content(images_a, images_b)
-        continue
-      else:
-        model.update_D(images_a, images_b)
-        model.update_EG()
+      if opts.phase == 'train':
+          if (it + 1) % opts.d_iter != 0 and it < len(train_loader) - 2:
+            model.update_D_content(images_a, images_b)
+            continue
+          else:
+            model.update_D(images_a, images_b)
+            model.update_EG()
+
+      if opts.phase == 'test':
+          with torch.no_grad():
+              model.input_A = images_a
+              model.input_B = images_b
+              model.forward()
+              saver.write_img(it, model)
 
       # save to display file
       if not opts.no_display_img:
@@ -60,6 +68,9 @@ def main():
       if total_it >= max_it:
         saver.write_img(-1, model)
         saver.write_model(-1, model)
+        break
+
+    if opts.phase == 'test':
         break
 
     # decay learning rate

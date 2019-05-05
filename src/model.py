@@ -11,6 +11,7 @@ class DRIT(nn.Module):
     lr_dcontent = lr / 2.5
     self.nz = 8
     self.concat = opts.concat
+    self.device = torch.device('cuda:{}'.format(opts.gpu)) if opts.gpu>=0 else torch.device('cpu')
 
     # discriminators
     if opts.dis_scale > 1:
@@ -388,7 +389,7 @@ class DRIT(nn.Module):
     return encoding_loss
 
   def resume(self, model_dir, train=True):
-    checkpoint = torch.load(model_dir)
+    checkpoint = torch.load(model_dir, map_location=self.device)
     # weight
     if train:
       self.disA.load_state_dict(checkpoint['disA'])

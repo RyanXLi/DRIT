@@ -34,7 +34,7 @@ def main():
   print('\n--- testing ---')
   for idx1, img1 in enumerate(loader):
     print('{}/{}'.format(idx1, len(loader)))
-    img1 = img1.cuda()
+    img1 = img1.cuda(opts.gpu)
     imgs = [img1]
     names = ['input']
     for idx2 in range(opts.num):

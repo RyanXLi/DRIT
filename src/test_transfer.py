@@ -37,13 +37,13 @@ def main():
   print('\n--- testing ---')
   for idx1, img1 in enumerate(loader):
     print('{}/{}'.format(idx1, len(loader)))
-    img1 = img1.cuda()
+    img1 = img1.cuda(opts.gpu)
     imgs = [img1]
     names = ['input']
     for idx2, img2 in enumerate(loader_attr):
       if idx2 == opts.num:
         break
-      img2 = img2.cuda()
+      img2 = img2.cuda(opts.gpu)
       with torch.no_grad():
         if opts.a2b:
           img = model.test_forward_transfer(img1, img2, a2b=True)

@@ -71,9 +71,11 @@ class dataset_unpair(data.Dataset):
   def __getitem__(self, index):
     if self.dataset_size == self.A_size:
       data_A = self.load_img(self.A[index], self.input_dim_A)
-      data_B = self.load_img(self.B[random.randint(0, self.B_size - 1)], self.input_dim_B)
+      # data_B = self.load_img(self.B[random.randint(0, self.B_size - 1)], self.input_dim_B)
+      data_B = self.load_img(self.B[index], self.input_dim_B)
     else:
-      data_A = self.load_img(self.A[random.randint(0, self.A_size - 1)], self.input_dim_A)
+      # data_A = self.load_img(self.A[random.randint(0, self.A_size - 1)], self.input_dim_A)
+      data_A = self.load_img(self.A[index], self.input_dim_A)
       data_B = self.load_img(self.B[index], self.input_dim_B)
     return data_A, data_B
 
